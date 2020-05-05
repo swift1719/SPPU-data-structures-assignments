@@ -1,0 +1,58 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+class TestClass {
+
+private boolean isAttacked(int x, int y, int[][] board, int n) {
+for (int i = 0; i < n; i++) {
+for (int j = 0; j < n; j++) {
+if (board[x][j] == 1 || board[i][y] == 1) {
+return true;
+}
+if (((i + j) == (x + y) || (i - j) == (x - y)) && board[i][j] == 1) {
+return true;
+}
+}
+}
+return false;
+}
+
+private boolean queenAttack(int[][] board, int total, int n) {
+if (n == 0) {
+return true;
+}
+
+for (int i = 0; i < total; i++) {
+for (int j = 0; j < total; j++) {
+if (isAttacked(i, j, board, total)) {
+continue;
+}
+board[i][j] = 1;
+if (queenAttack(board, total, n - 1)) {
+return true;
+}
+board[i][j] = 0;
+}
+}
+return false;
+}
+
+public static void main(String args[]) throws Exception {
+BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+String name = br.readLine();
+int n = Integer.parseInt(name);
+TestClass tc = new TestClass();
+int[][] board = new int[n][n];
+if (tc.queenAttack(board, n, n)) {
+    System.out.println("YES");
+for (int i = 0; i < n; i++) {
+for (int j = 0; j < n; j++) {
+System.out.print(board[i][j] + " ");
+}
+System.out.println();
+}
+} else {
+System.out.println("NO");
+}
+}
+}
